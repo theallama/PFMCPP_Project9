@@ -71,10 +71,14 @@ struct Wrapper
 template<typename T, typename ...Args>
 void variadicHelper(T first, Args ... everythingElse)
 {
-    std::cout << first << std::endl;
-
-    functName(everythingElse...);
+    Wrapper<T> (std::forward<T> (first));
     
+}
+
+template<typename T>
+void variadicHelper(T&& singleParam)
+{
+    Wrapper<T> (std::forward<T> (singleParam));
 }
 
 /*
