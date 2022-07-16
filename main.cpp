@@ -44,10 +44,12 @@ private:
     float x{0}, y{0};
 };
 
+
 void variadicHelper()
 {
     std::cout << "I am a printing stuff.\n";
 }
+
 
 template<typename Type>
 struct Wrapper
@@ -65,20 +67,31 @@ struct Wrapper
     Type val{}; 
     
 };
+// 8) You will need to specialize the Wrapper class template to work with the Point class.
+template<>
+struct Wrapper<Point>
+{
 
+
+};
 
 
 template<typename T, typename ...Args>
 void variadicHelper(T first, Args ... everythingElse)
 {
-    Wrapper<T> (std::forward<T> (first));
+    Wrapper<T> (std::forward<T> (first)).print();
+    // Member ( std::forward<Args>(args)… ) {}
+    variadicHelper (std::forward<Args>(everythingElse) ...);
     
 }
+
 
 template<typename T>
 void variadicHelper(T&& singleParam)
 {
-    Wrapper<T> (std::forward<T> (singleParam));
+    Wrapper<T> (std::forward<T> (singleParam)).print();
+    // error: no matching conversion for functional-style cast from
+    //   'Point' to 'Wrapper<Point>'
 }
 
 /*
