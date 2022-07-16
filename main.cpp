@@ -44,6 +44,11 @@ private:
     float x{0}, y{0};
 };
 
+void variadicHelper()
+{
+    std::cout << "I am a printing stuff.\n";
+}
+
 template<typename Type>
 struct Wrapper
 {
@@ -51,7 +56,26 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;
+    }
+
+    Type val{}; 
+    
 };
+
+
+
+template<typename T, typename ...Args>
+void variadicHelper(T first, Args ... everythingElse)
+{
+    std::cout << first << std::endl;
+
+    functName(everythingElse...);
+    
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
