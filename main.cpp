@@ -107,11 +107,6 @@ inline void Wrapper<Point>::print()
 // }
 
 //Challenge #2
-template<typename T>
-void variadicHelper(T&& singleParam)
-{
-    Wrapper<T> (std::forward<T> (singleParam)).print();
-}
 
 template<typename T = void, typename ... Args>
 void variadicHelper();
