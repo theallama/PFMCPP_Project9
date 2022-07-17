@@ -62,44 +62,75 @@ struct Wrapper
     Type val{}; 
     
 };
-// 8) You will need to specialize the Wrapper class template to work with the Point class.
-//a separate class definition entirely
-#include <memory>
-#
+//==============================================
+
+// template<>
+// struct Wrapper<Point>
+// {
+//     using Type = Point;
+//     Wrapper(Type&& v) : v_(std::move(v))
+//     {
+//         std::cout << "Wrapper(" << typeid(v_).name() << ")" << std::endl; 
+//     }
+
+//     void print()
+//     {
+//         std::cout << "Wrapper::print(" << v_.toString() << ")" << std::endl;
+//     }
+
+//     Type v_{0.f, 0.f};
+
+// };
+
+//Challenge #1
 template<>
-struct Wrapper<Point>
+inline void Wrapper<Point>::print()
 {
-    using Type = Point;
-    Wrapper(Type&& v) : v_(std::move(v))
-    {
-        std::cout << "Wrapper(" << typeid(v_).name() << ")" << std::endl; 
-    }
-
-    void print()
-    {
-        std::cout << "Wrapper::print(" << v_.toString() << ")" << std::endl;
-    }
-
-    Type v_{0.f, 0.f};
-
-};
-
-
-template<typename T, typename ...Args>
-void variadicHelper(T first, Args ... everythingElse)
-{
-    Wrapper<T> (std::forward<T> (first)).print();
-    // Member ( std::forward<Args>(args)… ) {}
-    variadicHelper (std::forward<Args>(everythingElse) ...);
-    
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;  
 }
 
 
+//==============================================
+
+// template<typename T, typename ...Args>
+// void variadicHelper(T first, Args ... everythingElse)
+// {
+//     Wrapper<T> (std::forward<T> (first)).print();
+//     variadicHelper (std::forward<Args>(everythingElse) ...);
+    
+// }
+
+// template<typename T>
+// void variadicHelper(T&& singleParam)
+// {
+//     Wrapper<T> (std::forward<T> (singleParam)).print();
+// }
+
+//Challenge #2
 template<typename T>
 void variadicHelper(T&& singleParam)
 {
     Wrapper<T> (std::forward<T> (singleParam)).print();
 }
+
+template<typename T = void, typename ... Args>
+void variadicHelper();
+
+
+template<typename T, typename ... Args>
+void variadicHelper(T first, Args ... everythingElse)
+{
+    Wrapper<T> (std::forward<T> (first)).print();
+    variadicHelper (std::forward<Args>(everythingElse) ...);
+    
+}
+
+template<>
+void variadicHelper<>()
+{
+    
+}
+
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
