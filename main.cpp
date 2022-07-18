@@ -44,6 +44,8 @@ private:
     float x{0}, y{0};
 };
 
+
+
 template<typename Type>
 struct Wrapper
 {
@@ -51,7 +53,78 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;
+    }
+
+    Type val{}; 
+    
 };
+//==============================================
+
+// template<>
+// struct Wrapper<Point>
+// {
+//     using Type = Point;
+//     Wrapper(Type&& v) : v_(std::move(v))
+//     {
+//         std::cout << "Wrapper(" << typeid(v_).name() << ")" << std::endl; 
+//     }
+
+//     void print()
+//     {
+//         std::cout << "Wrapper::print(" << v_.toString() << ")" << std::endl;
+//     }
+
+//     Type v_{0.f, 0.f};
+
+// };
+
+//Challenge #1
+template<>
+inline void Wrapper<Point>::print()
+{
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;  
+}
+
+
+//==============================================
+
+// template<typename T, typename ...Args>
+// void variadicHelper(T first, Args ... everythingElse)
+// {
+//     Wrapper<T> (std::forward<T> (first)).print();
+//     variadicHelper (std::forward<Args>(everythingElse) ...);
+    
+// }
+
+// template<typename T>
+// void variadicHelper(T&& singleParam)
+// {
+//     Wrapper<T> (std::forward<T> (singleParam)).print();
+// }
+
+//Challenge #2
+
+
+void variadicHelper();
+
+
+template<typename T, typename ... Args>
+void variadicHelper(T first, Args ... everythingElse)
+{
+    Wrapper<T> (std::forward<T> (first)).print();
+    variadicHelper (std::forward<Args>(everythingElse) ...);
+}
+
+
+void variadicHelper()
+{
+    
+}
+
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
