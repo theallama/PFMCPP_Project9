@@ -108,7 +108,7 @@ inline void Wrapper<Point>::print()
 
 //Challenge #2
 
-template<typename T = void, typename ... Args>
+
 void variadicHelper();
 
 
@@ -117,11 +117,10 @@ void variadicHelper(T first, Args ... everythingElse)
 {
     Wrapper<T> (std::forward<T> (first)).print();
     variadicHelper (std::forward<Args>(everythingElse) ...);
-    
 }
 
-template<>
-void variadicHelper<>()
+
+void variadicHelper()
 {
     
 }
